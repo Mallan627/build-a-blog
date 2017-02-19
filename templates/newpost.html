@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head><title>Build A Blog!</title> </head>
+
+<body>
+    <form method="post">
+        <h1>New Post!</p>
+        <p>
+        <label>
+            <div>Enter a Title for your new blog entry</div>
+            <!--{{title}} passes through any title variable from main to here -->
+            <input type="text" name="title" value = {{title}}>
+        </label>
+
+        <label>
+            <div>Type your entry here</div>
+            <textarea name="entryText">{{entryText}}</textarea>
+        </label>
+
+        <!--The curls are part of our template language-->
+        <div class="error">{{error}}</div>
+        <input type="submit">
+    </form>
+
+<br>
+<p>Click <a href="/post">here</a> to post a NEW entry!</p>
+<br>
+<p>Check out the last five entries <a href="/blog">here</a>
+</body>
