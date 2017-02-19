@@ -41,19 +41,23 @@ class Handler(webapp2.RequestHandler):
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
 
-class NewPost(db.Model):
+class Entries(db.Model):
     title = db.StringProperty(required = True)
     entryText = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
 
-    t = jinja_env.get_template("newpost.html")
-    content = t.render(movie = watched_movie)
-    self.response.write(content)
+#class NewPost(db.Model):
+#    title = db.StringProperty(required = True)
+    # entryText = db.TextProperty(required = True)
+    # created = db.DateTimeProperty(auto_now_add = True)
+    #
+    # t = jinja_env.get_template("newpost.html")
+    # content = t.render(title = title, entryText = entryText)
+    # self.response.write(content)
 
 class MainPage(Handler):
     def render_base(self, title="", entryText="", error=""):
-        t = jinja_env.get_template("login.html")
-        base = db.GqlQuery("SELECT * FROM  "
+        base = db.GqlQuery("SELECT * FROM Entries "
                             "ORDER BY created DESC ")
         self.render("base.html", title = title, entryText = entryText, error = error)
 
@@ -65,18 +69,18 @@ class MainPage(Handler):
         entryText = self.request.get("entryText")
 
         if title and entryText:
-            e = entry(title = title, entryText = art)
+            e = Entries(title = title, entryText = entryText)
             e.put()
-            self.redirect("")
+            self.redirect("/base")
         else:
             error = "We need both a title for the entry and some text IN the entry!"
-            self.render_front(title, entryText, error)
+            self.render_base(title, entryText, error)
 
 class Blog(Handler):
     #def render_front(self, title="", entryText="", error=""):
 
     def render_login_form(self, error=""):
-        t = jinja_env.get_template("login.html")
+        t = jinja_env.get_template("blog.html")
         content = t.render(error=error)
         self.response.write(content)
 
@@ -92,5 +96,5 @@ class Blog(Handler):
         self.render("blog.html", title = title, entryText = entryText, error = error)
 
 
-app = webapp2.WSGIApplication([('/', MainPage)
+app = webapp2.WSGIApplication([('/', MainPage), ('/blog', Blog)
 ], debug=True)
