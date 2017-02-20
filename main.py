@@ -57,8 +57,7 @@ class Entries(db.Model):
 
 class MainPage(Handler):
     def render_base(self, title="", entryText="", error=""):
-        base = db.GqlQuery("SELECT * FROM Entries "
-                            "ORDER BY created DESC ")
+        base = db.GqlQuery("SELECT * FROM Entries ORDER BY created DESC ")
         self.render("base.html", title = title, entryText = entryText, error = error)
 
     def get(self):
@@ -71,7 +70,7 @@ class MainPage(Handler):
         if title and entryText:
             e = Entries(title = title, entryText = entryText)
             e.put()
-            self.redirect("/base")
+            self.redirect("/")
         else:
             error = "We need both a title for the entry and some text IN the entry!"
             self.render_base(title, entryText, error)
@@ -79,22 +78,13 @@ class MainPage(Handler):
 class Blog(Handler):
     #def render_front(self, title="", entryText="", error=""):
 
-    def render_login_form(self, error=""):
-        t = jinja_env.get_template("blog.html")
-        content = t.render(error=error)
-        self.response.write(content)
+    def render_blog(self, title="", entryText = "", error=""):
+        blog = db.GqlQuery("SELECT * FROM Entries ORDER BY created DESC LIMIT 5 ")
+        self.render("blog.html", title = title, entryText = entryText, error = error)
 
     def get(self):
         """ Display a list of posts that have recently been created """
-
-        # query for watched movies (by any user), sorted by how recently the movie was watched
-        query = NewPost.all().order("-datetime")
-        blog = db.GqlQuery("SELECT * FROM  NewPost"
-                            "ORDER BY created DESC ")
-        NewPost = query.fetch(limit = 5)
-
-        self.render("blog.html", title = title, entryText = entryText, error = error)
-
+        self.render_blog()
 
 app = webapp2.WSGIApplication([('/', MainPage), ('/blog', Blog)
 ], debug=True)
