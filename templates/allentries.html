@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>All Entries</title>
+    </head>
+<body>
+<h1>What has been written so far... </h1>
+
+{% for item in base %}
+    {{item.title}}
+    <br>
+    {{item.entryText}}
+    <p></p>
+{% endfor %}
+</body>
+</html>

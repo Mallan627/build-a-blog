@@ -58,7 +58,7 @@ class Entries(db.Model):
 class MainPage(Handler):
     def render_base(self, title="", entryText="", error=""):
         base = db.GqlQuery("SELECT * FROM Entries ORDER BY created DESC ")
-        self.render("base.html", title = title, entryText = entryText, error = error)
+        self.render("base.html", base = base)
 
     def get(self):
         self.render_base()
@@ -79,12 +79,21 @@ class Blog(Handler):
     #def render_front(self, title="", entryText="", error=""):
 
     def render_blog(self, title="", entryText = "", error=""):
-        blog = db.GqlQuery("SELECT * FROM Entries ORDER BY created DESC LIMIT 5 ")
-        self.render("blog.html", title = title, entryText = entryText, error = error)
+        blog = db.GqlQuery("SELECT * FROM Entries ORDER BY created DESC ")
+        self.render("blog.html", blog = blog)
 
     def get(self):
         """ Display a list of posts that have recently been created """
         self.render_blog()
 
-app = webapp2.WSGIApplication([('/', MainPage), ('/blog', Blog)
+class Allentries(Handler):
+    def render_blog(self, title="", entryText = "", error=""):
+        base = db.GqlQuery("SELECT * FROM Entries ORDER BY created DESC ")
+        self.render("allentries.html", base = base)
+
+    def get(self):
+        """ Display a list ALL posts in desc order of creation """
+        self.render_blog()
+
+app = webapp2.WSGIApplication([('/', MainPage), ('/blog', Blog), ('/allentries', Allentries)
 ], debug=True)
