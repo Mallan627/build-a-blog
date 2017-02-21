@@ -79,7 +79,7 @@ class Blog(Handler):
     #def render_front(self, title="", entryText="", error=""):
 
     def render_blog(self, title="", entryText = "", error=""):
-        blog = db.GqlQuery("SELECT * FROM Entries ORDER BY created DESC ")
+        blog = db.GqlQuery("SELECT * FROM Entries ORDER BY created DESC LIMIT 5")
         self.render("blog.html", blog = blog)
 
     def get(self):
