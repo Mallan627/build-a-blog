@@ -41,31 +41,9 @@
 </style>
 
 <body>
-    <form method="post">
-        <h1>Welcome to Build A Blog!</h1>
-        <p>
-        <label>
-            <div>Title</div>
-            <!--{{title}} passes through any title variable from main to here -->
-            <input type="text" name="title" value = {{title}}>
-        </label>
-
-        <label>
-            <br>
-            <div>Entry Text</div>
-            <textarea name="entryText">{{entryText}}</textarea>
-        </label>
-        <input type="submit">
-
-        <!--The curls are part of our template language-->
-        <div class="error">{{error}}</div>
-    </form>
-
-<br>
-<p>Click <a href="/post">here</a> to post a NEW entry!</p>
-<br>
-<p>Check out the last five entries <a href="/blog">here</a>
+    <h1><center> Welcome to Build a Blog!</center></h1>
+    <p>Click <a href="/newpost">here</a> to post a NEW entry!</p>
+    <p>Check out the last five entries <a href="/blog">here</a></p>
+    <p>Click <a href="/">here</a> to go back to the main page.</p>
 </body>
-<p>
-Click <a href="/">here</a> to go back to the main page.    
 </html>

@@ -26,7 +26,9 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), a
 allowed_routes = [
     "/base",
     "/blog",
-    "/newpost"
+    "/newpost",
+    "/allentries"
+#    webapp2.Route('/blog/<id:\d+>', ViewPostHandler)
 ]
 
 class Handler(webapp2.RequestHandler):
@@ -95,5 +97,24 @@ class Allentries(Handler):
         """ Display a list ALL posts in desc order of creation """
         self.render_blog()
 
-app = webapp2.WSGIApplication([('/', MainPage), ('/blog', Blog), ('/allentries', Allentries)
+class Newpost(Handler):
+    def render_newpost(self, title="", entryText = "", error = ""):
+        self.render("newpost.html", base = base)
+
+    def newpost(self):
+        title = self.request.get("title")
+        entryText = self.request.get("entryText")
+
+        if title and entryText:
+            e = Entries(title = title, entryText = entryText)
+            e.put()
+            self.redirect("/blog")
+        else:
+            error = "We need both a title for the entry and some text IN the entry!"
+            self.render_newpost(title, entryText, error)
+
+#class ViewPostHandler(webapp2.RequestHandler):
+#    def get(self, id):
+
+app = webapp2.WSGIApplication([('/', MainPage), ('/blog', Blog), ('/allentries', Allentries), ('/newpost', Newpost)
 ], debug=True)

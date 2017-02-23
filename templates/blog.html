@@ -48,17 +48,16 @@
 <form>
     <h1>Latest Entries!</h1>
 
-<h2> Last Five Entries! </h2>
-    {% for item in blog %}
-        <br>
-        <span class="entrytitle">{{item.title}}</span>
-        <br>
-        {{item.entryText}}
-        <p></p>
-        {% endfor %}
-
+    <h2> Last Five Entries! </h2>
+        {% for item in blog %}
+            <br>
+            <span class="entrytitle">{{item.title}}</span>
+            <br>
+            {{item.entryText}}
+            <p></p>
+            {% endfor %}
  </form>
 <br>
-Click <a href="/">here</a> to go back to the main page.
+Click <a href="/">here</a> to go back to the main page or click <a href="/newpost">here </a> to create a brand new entry!
 </body>
 </html>
