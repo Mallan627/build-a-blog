@@ -1,26 +1,29 @@
-<!DOCTYPE html>
-<head><title>Build A Blog!</title> </head>
+{% extends "base.html" %}
 
-<body>
-    <form method="post">
-        <h1>Welcome to Build A Blog!</h1>
-        <p>
-        <label>
-            <div>Title</div>
-            <!--{{title}} passes through any title variable from main to here -->
-            <input type="text" name="title" value = {{title}}>
-        </label>
+{% block content %}
 
-        <label>
-            <br>
-            <div>Entry Text</div>
-            <textarea name="entryText">{{entryText}}</textarea>
-        </label>
-        <input type="submit">
 
-        <!--The curls are part of our template language-->
-        <div class="error">{{error}}</div>
+<form method="post">
+    <h1>Let's Post A Brand NEW Entry!</h1>
+    <p>
+    <label>
+        <div>Title</div>
+        <!--{{title}} passes through any title variable from main to here -->
+        <input type="text" name="title" value = {{title}}>
+    </label>
+
+    <label>
+        <br>
+        <div>Entry Text</div>
+        <textarea name="entryText">{{entryText}}</textarea>
+    </label>
+    <br>
+    <input type="submit">
+
+    <!--The curls are part of our template language-->
+    <div class="error">{{error}}</div>
     </form>
 
 <p>Check out the last five entries <a href="/blog">here</a> or you can view ALL the entries <a href="/allentries">here.</a>
-</body>
+
+{% endblock %}

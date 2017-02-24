@@ -99,12 +99,12 @@ class Allentries(Handler):
 
 class Newpost(Handler):
     def render_newpost(self, title="", entryText = "", error = ""):
-        self.render("newpost.html", base = base)
+        t = jinja_env.get_template("newpost.html")
+        self.response.write(t.render(title=title, entryText=entryText, error=error))
 
-    def newpost(self):
+    def post(self):
         title = self.request.get("title")
         entryText = self.request.get("entryText")
-
         if title and entryText:
             e = Entries(title = title, entryText = entryText)
             e.put()
@@ -112,6 +112,11 @@ class Newpost(Handler):
         else:
             error = "We need both a title for the entry and some text IN the entry!"
             self.render_newpost(title, entryText, error)
+
+    def get(self):
+        title = self.request.get("title")
+        entryText = self.request.get("entryText")
+        self.render_newpost("", "", "")
 
 #class ViewPostHandler(webapp2.RequestHandler):
 #    def get(self, id):
